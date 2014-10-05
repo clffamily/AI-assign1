@@ -5,9 +5,9 @@ Starter code for 384-A1, Last modified: September 30th, 2014
 %%
 %%  CSC384 Fall 2014, Assignment 1
 %%
-%%  NAME: 
+%%  NAME: Cai Lingfeng
 %%
-%%  STUDENT NUMBER: 
+%%  STUDENT NUMBER: 1001931573
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 '''
@@ -65,13 +65,57 @@ class Fuelmaze(Problem):
            Up
            Down
            Refuel'''
-        
-
-        
+               
         States = list()
         
         #Generate the states here
         
+        right_pos = (state.pos[0] + 1,state.pos[1] )
+        left_pos = (state.pos[0] - 1,state.pos[1] )
+        up_pos = (state.pos[0] ,state.pos[1] - 1 )
+        down_pos = (state.pos[0] ,state.pos[1] + 1 )
+
+        right_obstacle_free = True
+        left_obstacle_free = True
+        up_obstacle_free = True
+        down_obstacle_free = True
+
+        pos_in_fuelstation = False
+
+        for obs in self.obstacles:
+            if right_pos == obs:
+                right_obstacle_free = False
+            if left_pos == obs:
+                left_obstacle_free = False
+            if up_obstacle_free == obs:
+                up_obstacle_free = False
+            if down_obstacle_free == obs:
+                down_obstacle_free = False
+
+        for fuel in self.fuelstations:
+            if pos_in_fuelstation == fuel:
+                pos_in_fuelstation = True
+
+        # Right action
+        if right_obstacle_free and state.fuel >= 1 and right_pos[0] < self.width:
+            States.append( ('Move Right', 1, FuelmazeState(right_pos ,state.fuel - 1) ) )
+
+        # Left action
+        if left_obstacle_free and state.fuel >=1 and left_pos[0] >= 0:
+            States.append( ('Move Left', 1, FuelmazeState(left_pos ,state.fuel - 1) ) )
+
+        # Up action
+        if up_obstacle_free and state.fuel >=1 and up_pos[1] >=0:
+            States.append( ('Move Up', 1, FuelmazeState(up_pos ,state.fuel - 1) ) )
+
+        # Down action
+        if down_obstacle_free and state.fuel >=1 and down_pos[1] < self.height:
+            States.append( ('Move Down', 1, FuelmazeState(down_pos ,state.fuel - 1) ) )
+
+        # Refuel action
+        if state.fuel < self.capacity and pos_in_fuelstation:
+            States.append( ('Refuel the Robot', 1, FuelmazeState(state.pos ,self.capacity) ) )
+
         return States
 
 
@@ -79,7 +123,7 @@ class Fuelmaze(Problem):
     def hashable_state(self, state):
         '''Return a tuple of the state's values that represents the state 
            such that equivalent states result in equivalent tuples.'''
-        return 
+        return #(state.pos , state.fuel)
 
     #Implement this!
     def goal_check(self, state):
@@ -88,7 +132,9 @@ class Fuelmaze(Problem):
 
         #We do not specify a target fuel in our goal states, alter this test so that
         #it only checks position, not fuel
-        return False
+        
+        #return self.hashable_state(self.goal)[0] == self.hashable_state(state)[0]
+        return False;
         
 
 # The given NULL heuristic (do not change)
@@ -98,7 +144,10 @@ def fuelmaze_h_uniform(problem, state):
 
 ## Implement the Manhattan Distance
 def fuelmaze_h_manhattan(problem, state):
-    return 0
+    hval = 0
+    if problem.goal.pos != '*':
+        hval = hval + abs(problem.goal.pos[0] - state.pos[0]) + abs(problem.goal.pos[1] - state.pos[1])
+    return hval
 
 ## Implement your own heuristic
 def fuelmaze_h_custom(problem, state):
@@ -137,13 +186,18 @@ if __name__ == "__main__":
                  [],
                  [(1,0), (2,1), (3,2), (3,4), (2,5), (1,6), (4,3), (5,2), (6,1), (5,5), 
                   (6,6), (7,7), (4,4)],
-                 (0,0), 30, (7,1)) 
+                 (0,0), 30, (7,1)),
+        # New added
+        Fuelmaze(9, 9, 25,
+                 [(8,6)],
+                 [(8,8)], 
+                 (0,0), 25, (1,0)) 
     ]
     
     heuristics = [
-              ('Uniform heuristic', fuelmaze_h_uniform), 
-              ('Manhattan-Distance heuristic', fuelmaze_h_manhattan),
-              ('Custom heuristic', fuelmaze_h_custom) ]
+              ('Uniform heuristic', fuelmaze_h_uniform), ]
+              # ('Manhattan-Distance heuristic', fuelmaze_h_manhattan),
+              # ('Custom heuristic', fuelmaze_h_custom) ]
 
     # Set this to >=1 to get increasingly informative search statistics
     trace = 1
