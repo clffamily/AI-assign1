@@ -87,13 +87,13 @@ class Fuelmaze(Problem):
                 right_obstacle_free = False
             if left_pos == obs:
                 left_obstacle_free = False
-            if up_obstacle_free == obs:
+            if up_pos == obs:
                 up_obstacle_free = False
-            if down_obstacle_free == obs:
+            if down_pos == obs:
                 down_obstacle_free = False
 
         for fuel in self.fuelstations:
-            if pos_in_fuelstation == fuel:
+            if state.pos == fuel:
                 pos_in_fuelstation = True
 
         # Right action
@@ -123,7 +123,8 @@ class Fuelmaze(Problem):
     def hashable_state(self, state):
         '''Return a tuple of the state's values that represents the state 
            such that equivalent states result in equivalent tuples.'''
-        return #(state.pos , state.fuel)
+        #return (state.pos[0], state.pos[1], state.fuel)
+        return (state.pos , state.fuel)
 
     #Implement this!
     def goal_check(self, state):
@@ -133,8 +134,8 @@ class Fuelmaze(Problem):
         #We do not specify a target fuel in our goal states, alter this test so that
         #it only checks position, not fuel
         
-        #return self.hashable_state(self.goal)[0] == self.hashable_state(state)[0]
-        return False;
+        return self.hashable_state(self.goal)[0] == self.hashable_state(state)[0]
+        #return False
         
 
 # The given NULL heuristic (do not change)
@@ -190,8 +191,8 @@ if __name__ == "__main__":
         # New added
         Fuelmaze(9, 9, 25,
                  [(8,6)],
-                 [(8,8)], 
-                 (0,0), 25, (1,0)) 
+                 [(1,0),(1,1)], 
+                 (0,0), 25, (2,0)) 
     ]
     
     heuristics = [

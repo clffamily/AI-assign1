@@ -5,9 +5,9 @@ Starter code for 384-A1, Last modified: September 30th, 2014
 %%
 %%  CSC384 Fall 2014, Assignment 1
 %%
-%%  NAME: 
+%%  NAME: Cai Lingfeng
 %%
-%%  STUDENT NUMBER: 
+%%  STUDENT NUMBER: 1001931573
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 '''
@@ -19,12 +19,18 @@ class SchedulingState:
 
 
     #Implement this, you will have to alter the parameters
-    def __init__(self):
+    def __init__(self, conf, time, job, job_time):
         '''Initializes the state'''
         
+        self.conf = conf
+        self.time = time
+        self.job = job_completed
+        #self.job_time = job_time
+
     #To be implemented - for information purposes only
     def __repr__(self):
         '''Returns a string representation of the state'''
+        ret = "(configuration, time, job, job_time) = ({},{},{},{})".format(self.conf, self.time, self.job, self.job_time)
         return ret
 
 

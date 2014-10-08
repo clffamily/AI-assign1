@@ -72,7 +72,7 @@ class FullCheck(CycleCheck):
     def prune(self, problem, node):
         hs = problem.hashable_state(node.state)
         # Prune state if it's in the dictionary with a larger path cost
-        if (hs in self.cc_dictionary) and (node.gval > self.cc_dictionary[hs]):
+        if (hs in self.cc_dictionary) and (node.gval >= self.cc_dictionary[hs]):
             self.pruned_nodes += 1
             return True
         # else add the state and path cost to the dictionary
