@@ -1,0 +1,46 @@
+
+
+
+Fuelmaze test results (uniform cost heuristic):
+
+        Nodes generated      Nodes expanded     Solution cost
+Test 1  1181  		     489   		39
+Test 2	517		     194		21
+Test 3	1030		     366		24
+Test 4	1179		     376		fails to find a solution
+Test 5	6885		     2031		fails to find a solution
+Test 6	41		     21			4
+Test 7	56		     41			23
+Test 8	540		     200		28
+Test 9	2756		     976		140
+
+Note that some of these tests, such as 4, 5, and 6, emphasize correctness over testing efficiency
+Tests 8 and 9 are designed so that the Manhattan distance heuristic does not work particularly well
+
+Fuelmaze test results (Manhattan distance heuristic):
+
+        Nodes generated      Nodes expanded     Solution cost
+Test 1  924   		     392   		39
+Test 2	343		     127		21
+Test 3	415 		     151		24
+Test 4	1179		     376		fails to find a solution
+Test 5	6885		     2031		fails to find a solution
+Test 6	12		     5 			4
+Test 7	56		     40			23
+Test 8	387		     146		28
+Test 9	2628		     933		140
+
+
+Taskscheduling test results (uniform cost heuristic):
+
+        Nodes generated      Nodes expanded     Solution cost
+Test 1  965   		     570   		60
+Test 2	5121		     1883		68
+Test 3	18895		     9120		30
+Test 4  102869		     5243		11
+
+All of these tests are somewhat small, making nodes explored better for determining efficiency than time.
+For fuelmaze you can use the mazegen function to make larger tests by using a larger parameter value.
+For taskscheduling different implementations can lead to different node counts, different values do not necessarily mean your answer is incorrect.
+Solution costs should match exactly when using an admissible heuristic.
+

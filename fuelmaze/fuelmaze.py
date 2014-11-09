@@ -151,8 +151,23 @@ def fuelmaze_h_manhattan(problem, state):
     return hval
 
 ## Implement your own heuristic
+# Take fuel staion into account
 def fuelmaze_h_custom(problem, state):
-    return 0
+    hval = 0
+    first_time = True;
+    manhattan_dis = abs(problem.goal.pos[0] - state.pos[0]) + abs(problem.goal.pos[1] - state.pos[1])
+    if state.fuel >= manhattan_dis:
+        hval = hval + manhattan_dis
+    elif state.fuel < manhattan_dis:        
+        for fstation in problem.fuelstations:
+            man_dis_pos_to_station = abs(fstation[0] - state.pos[0]) + abs(fstation[1] - state.pos[1])
+            man_dis_station_to_goal = abs(fstation[0] - problem.goal.pos[0]) + abs(fstation[1] - problem.goal.pos[1])                       
+            if first_time:
+                hval = man_dis_pos_to_station + man_dis_station_to_goal + 1
+                first_time = False
+            else:
+                hval = min(hval, man_dis_pos_to_station + man_dis_station_to_goal + 1)
+    return hval
 
 
 
@@ -196,9 +211,9 @@ if __name__ == "__main__":
     ]
     
     heuristics = [
-              ('Uniform heuristic', fuelmaze_h_uniform), ]
-              # ('Manhattan-Distance heuristic', fuelmaze_h_manhattan),
-              # ('Custom heuristic', fuelmaze_h_custom) ]
+              ('Uniform heuristic', fuelmaze_h_uniform), 
+              ('Manhattan-Distance heuristic', fuelmaze_h_manhattan),
+              ('Custom heuristic', fuelmaze_h_custom) ]
 
     # Set this to >=1 to get increasingly informative search statistics
     trace = 1
